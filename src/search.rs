@@ -75,12 +75,11 @@ fn display_word(line: &String, search: &String) {
         if word.to_lowercase() == search.to_lowercase() {
             output.push_str(format!(">>{}<< ", word).as_str());
         } else if word.to_lowercase().contains(search.to_lowercase().as_str()) {
-			let word_iter = word.split(search);
-			for letter in word_iter {
-				output.push_str(format!("{}>>{}<<", letter, search).as_str());
-			}
-		}
-		else {
+            let word_iter = word.split(search);
+            for letter in word_iter {
+                output.push_str(format!("{}>>{}<<", letter, search).as_str());
+            }
+        } else {
             output.push_str(format!("{} ", word).as_str());
         }
     }
