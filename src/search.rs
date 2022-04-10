@@ -14,10 +14,7 @@ impl Options<'_> {
 
 pub fn find(option: Options, contents: &String) {
     let lines: Vec<String> = match option {
-        Options::Uppercase(_) => {
-            find_uppercase();
-            vec!["foo".to_string(), "bar".to_string()]
-        }
+        Options::Uppercase(search) => find_uppercase(search, contents),
         Options::Lowercase(search) => find_lowercase(search, contents),
     };
 
@@ -30,8 +27,17 @@ pub fn find(option: Options, contents: &String) {
     }
 }
 
-fn find_uppercase() {
-    panic!("The forbiden func\nhttps://youtu.be/wrj59JLxStM");
+fn find_uppercase(search: &String, contents: &String) -> Vec<String> {
+    // panic!("The forbiden func\nhttps://youtu.be/wrj59JLxStM");
+    let mut lines: Vec<String> = Vec::new();
+
+    for line in contents.lines() {
+        if line.contains(&search.as_str()) {
+            lines.push(String::from(line));
+        }
+    }
+
+    lines
 }
 
 fn find_lowercase(search: &String, contents: &String) -> Vec<String> {
