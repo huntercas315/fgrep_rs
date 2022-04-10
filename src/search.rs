@@ -23,7 +23,7 @@ pub fn find(option: Options, contents: &String) {
     if lines.len() != 0 {
         display_results(&lines, search)
     } else {
-        println!("{} was not found in the chosen file", search);
+        println!("\"{}\" was not found in the chosen file", search);
     }
 }
 
@@ -62,6 +62,28 @@ fn find_lowercase(search: &String, contents: &String) -> Vec<(String, i16)> {
 fn display_results(lines: &Vec<(String, i16)>, search: &String) {
     println!("\"{}\" was found on lines:", &search);
     for i in 0..lines.len() {
-        println!("Line {}:\n    {}", &lines[i].1, &lines[i].0);
+        println!("Line {}:", &lines[i].1);
+        display_word(&lines[i].0, search);
     }
+}
+
+fn display_word(line: &String, search: &String) {
+    let line_iter = line.as_str().split(' ');
+    let mut output: String = String::new();
+
+    for word in line_iter {
+        if word.to_lowercase() == search.to_lowercase() {
+            output.push_str(format!(">>{}<< ", word).as_str());
+        } else if word.to_lowercase().contains(search.to_lowercase().as_str()) {
+			let word_iter = word.split(search);
+			for letter in word_iter {
+				output.push_str(format!("{}>>{}<<", letter, search).as_str());
+			}
+		}
+		else {
+            output.push_str(format!("{} ", word).as_str());
+        }
+    }
+
+    println!("	{}", output);
 }
