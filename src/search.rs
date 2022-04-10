@@ -4,12 +4,12 @@ pub enum Options<'a> {
 }
 
 impl Options<'_> {
-	fn extract(&self) -> &String {
-		match self {
-			Options::Uppercase(search) => return &search,
-			Options::Lowercase(search) => return &search,
-		}
-	}
+    fn extract(&self) -> &String {
+        match self {
+            Options::Uppercase(search) => return &search,
+            Options::Lowercase(search) => return &search,
+        }
+    }
 }
 
 pub fn find(option: Options, contents: &String) {
@@ -21,13 +21,13 @@ pub fn find(option: Options, contents: &String) {
         Options::Lowercase(search) => find_lowercase(search, contents),
     };
 
-	let search: &String = option.extract();
+    let search: &String = option.extract();
 
-    if lines.len() > 1 {
-		display_results(&lines, search)
+    if lines.len() != 0 {
+        display_results(&lines, search)
     } else {
-		println!("{} was not found in the chosen file", search);
-	}
+        println!("{} was not found in the chosen file", search);
+    }
 }
 
 fn find_uppercase() {
@@ -38,7 +38,10 @@ fn find_lowercase(search: &String, contents: &String) -> Vec<String> {
     let mut lines: Vec<String> = Vec::new();
 
     for line in contents.lines() {
-        if line.to_lowercase().contains(&search.as_str().to_lowercase()) {
+        if line
+            .to_lowercase()
+            .contains(&search.as_str().to_lowercase())
+        {
             lines.push(String::from(line));
         }
     }
@@ -48,7 +51,7 @@ fn find_lowercase(search: &String, contents: &String) -> Vec<String> {
 
 fn display_results(lines: &Vec<String>, search: &String) {
     println!("\"{}\" was found on lines:", &search);
-    for _i in 0..lines.len() {
-        println!("Line {}:\n    {}", _i + 1, &lines[_i]);
+    for i in 0..lines.len() {
+        println!("Line {}:\n    {}", i + 1, &lines[i]);
     }
 }
