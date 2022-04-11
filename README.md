@@ -5,5 +5,5 @@ A grep CLI tool for files, written in Rust
 > $ fgrep_rs `filename` `search-term` `flags`
 
 #### Flags:
-`-l` is defaultly used and will provide a case-insensitive search  
+`-l` is used by default and will provide a case-insensitive search  
 `-u` provides a case-sensitive search  

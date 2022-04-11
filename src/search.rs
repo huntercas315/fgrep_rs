@@ -5,9 +5,9 @@ pub enum Options<'a> {
 
 impl Options<'_> {
     fn unwrap(&self) -> &String {
-        match self {
-            Options::Uppercase(search) => return &search,
-            Options::Lowercase(search) => return &search,
+        return match self {
+            Options::Uppercase(search) => &search,
+            Options::Lowercase(search) => &search,
         }
     }
 }
