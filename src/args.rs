@@ -11,7 +11,6 @@ pub struct ArgData {
 impl ArgData {
     pub fn new(args: &[String]) -> Result<ArgData, &'static str> {
         if args.len() < 3 {
-            // panic!("insufficient arguments"); // TODO Refactor errors
             return Err("insufficient arguments");
         }
         let filename = args[1].clone();
