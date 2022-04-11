@@ -1,5 +1,4 @@
 use std::env;
-use std::fs;
 use std::process;
 
 mod args;
@@ -13,9 +12,10 @@ fn main() {
         process::exit(1);
     });
 
-    let contents =
-        fs::read_to_string(&data.filename).expect("Something went wrong reading the file");
-    // TODO: Refactor error handling
+    let contents = args::file_string(&data.filename).unwrap_or_else(|err| {
+        println!("Problem opening file: {}", err);
+        process::exit(1);
+    });
     let search_type = match data.search_type {
         args::Type::Uppercase => search::Options::Uppercase(&data.search),
         args::Type::Lowercase => search::Options::Lowercase(&data.search),

@@ -1,3 +1,6 @@
+use std::error::Error;
+use std::fs;
+
 #[derive(Debug)]
 pub struct ArgData {
     pub filename: String,
@@ -33,4 +36,9 @@ impl ArgData {
 pub enum Type {
     Uppercase,
     Lowercase,
+}
+
+pub fn file_string(filename: &String) -> Result<String, Box<dyn Error>> {
+    let contents = fs::read_to_string(filename)?;
+    Ok(contents)
 }
