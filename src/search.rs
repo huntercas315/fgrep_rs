@@ -4,7 +4,7 @@ pub enum Options<'a> {
 }
 
 impl Options<'_> {
-    fn extract(&self) -> &String {
+    fn unwrap(&self) -> &String {
         match self {
             Options::Uppercase(search) => return &search,
             Options::Lowercase(search) => return &search,
@@ -18,7 +18,7 @@ pub fn find(option: Options, contents: &String) {
         Options::Lowercase(search) => find_lowercase(search, contents),
     };
 
-    let search: &String = option.extract();
+    let search: &String = option.unwrap();
 
     if lines.len() != 0 {
         display_results(&lines, search)
@@ -28,7 +28,6 @@ pub fn find(option: Options, contents: &String) {
 }
 
 fn find_uppercase(search: &String, contents: &String) -> Vec<(String, i16)> {
-    // panic!("The forbiden func\nhttps://youtu.be/wrj59JLxStM");
     let mut lines: Vec<(String, i16)> = Vec::new();
     let mut line_num: i16 = 0;
 
@@ -75,12 +74,11 @@ fn display_word(line: &String, search: &String) {
         if word.to_lowercase() == search.to_lowercase() {
             output.push_str(format!(">>{}<< ", word).as_str());
         } else if word.to_lowercase().contains(search.to_lowercase().as_str()) {
-			let word_iter = word.split(search);
-			for letter in word_iter {
-				output.push_str(format!("{}>>{}<<", letter, search).as_str());
-			}
-		}
-		else {
+            let word_iter = word.split(search);
+            for letter in word_iter {
+                output.push_str(format!("{}>>{}<<", letter, search).as_str());
+            }
+        } else {
             output.push_str(format!("{} ", word).as_str());
         }
     }
