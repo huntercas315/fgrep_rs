@@ -8,7 +8,7 @@ impl Options<'_> {
         return match self {
             Options::Uppercase(search) => &search,
             Options::Lowercase(search) => &search,
-        }
+        };
     }
 }
 
