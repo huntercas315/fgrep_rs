@@ -78,7 +78,7 @@ fn display_word(line: &String, search: &String) {
 
     for (index, _) in &search_index {
         println!("{}", index);
-        highlight_line.replace_range(index..&(index + search.len()), "^");
+        highlight_line.replace_range(index..index, "^".repeat(search.len()).as_str());
     }
 
     println!("    {}", line);
