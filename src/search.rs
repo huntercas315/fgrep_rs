@@ -67,21 +67,20 @@ fn display_results(lines: &Vec<(String, i16)>, search: &String) {
 }
 
 fn display_word(line: &String, search: &String) {
-    let line_iter = line.as_str().split(' ');
-    let mut output: String = String::new();
+    let search_index: Vec<_> = line.match_indices(search).collect();
+    let mut highlight_line = String::from(" ".repeat(line.len()));
 
-    for word in line_iter {
-        if word.to_lowercase() == search.to_lowercase() {
-            output.push_str(format!(">>{}<< ", word).as_str());
-        } else if word.to_lowercase().contains(search.to_lowercase().as_str()) {
-            let word_iter = word.split(search);
-            for letter in word_iter {
-                output.push_str(format!("{}>>{}<<", letter, search).as_str());
-            }
-        } else {
-            output.push_str(format!("{} ", word).as_str());
-        }
+    //
+    for i in &search_index {
+        println!("{:?}", i);
+    }
+    //
+
+    for (index, _) in &search_index {
+        println!("{}", index);
+        highlight_line.replace_range(index..&(index + search.len()), "^");
     }
 
-    println!("	{}", output);
+    println!("    {}", line);
+    println!("	  {}", highlight_line);
 }
