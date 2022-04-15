@@ -21,7 +21,7 @@ pub fn find(option: Options, contents: &String) {
     let search: &String = option.unwrap();
 
     if lines.len() != 0 {
-        display_results(&lines, search)
+        display_results(&lines, search, &option);
     } else {
         println!("\"{}\" was not found in the chosen file", search);
     }
@@ -58,30 +58,41 @@ fn find_lowercase(search: &String, contents: &String) -> Vec<(String, i16)> {
     lines
 }
 
-fn display_results(lines: &Vec<(String, i16)>, search: &String) {
+fn display_results(lines: &Vec<(String, i16)>, search: &String, option: &Options) {
     println!("\"{}\" was found on lines:", &search);
     for i in 0..lines.len() {
         println!("Line {}:", &lines[i].1);
-        display_word(&lines[i].0, search);
+        display_word(&lines[i].0, search, option);
     }
 }
 
-fn display_word(line: &String, search: &String) {
-    let line_iter = line.as_str().split(' ');
-    let mut output: String = String::new();
+fn display_word(line: &String, search: &String, option: &Options) {
+    let search_index: Vec<(usize, &str)> = match option {
+        Options::Uppercase(_) => line.match_indices(search).collect(),
+        Options::Lowercase(_) => line
+            .to_lowercase()
+            .match_indices(search.to_lowercase().as_str())
+            .collect(),
+    };
+    let mut highlight_line = String::new();
 
-    for word in line_iter {
-        if word.to_lowercase() == search.to_lowercase() {
-            output.push_str(format!(">>{}<< ", word).as_str());
-        } else if word.to_lowercase().contains(search.to_lowercase().as_str()) {
-            let word_iter = word.split(search);
-            for letter in word_iter {
-                output.push_str(format!("{}>>{}<<", letter, search).as_str());
-            }
+    for (index, _) in search_index {
+        println!("Index num {}", &index);
+        if index == 0 {
+            highlight_line.push_str("^".repeat(search.len()).as_str());
         } else {
-            output.push_str(format!("{} ", word).as_str());
+            highlight_line.push_str(
+                format!(
+                    "{}{}",
+                    " ".repeat(index - highlight_line.len()),
+                    "^".repeat(search.len())
+                )
+                .as_str(),
+            )
         }
     }
 
-    println!("	{}", output);
+    // Index to spaces len - highlight string len = appended length
+
+    println!("    {}\n    {}", line, highlight_line);
 }
