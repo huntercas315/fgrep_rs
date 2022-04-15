@@ -67,7 +67,8 @@ fn display_results(lines: &Vec<(String, i16)>, search: &String, option: &Options
 }
 
 fn display_word(line: &String, search: &String, option: &Options) {
-    let mut line_temp = line.clone();
+    let mut line_temp;
+	// send options with reference to a string that is upper or lower case
     let search_index: Vec<(usize, &str)> = match option {
         Options::Uppercase(_) => line.match_indices(search).collect(),
         Options::Lowercase(_) => {
@@ -77,6 +78,7 @@ fn display_word(line: &String, search: &String, option: &Options) {
                 .collect()
         }
     };
+	
     let mut highlight_line = String::new();
 
     for (index, _) in search_index {
@@ -93,8 +95,6 @@ fn display_word(line: &String, search: &String, option: &Options) {
             )
         }
     }
-
-    // Index to spaces len - highlight string len = appended length
 
     println!("    {}\n    {}", line, highlight_line);
 }
