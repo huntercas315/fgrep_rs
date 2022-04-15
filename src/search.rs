@@ -67,17 +67,19 @@ fn display_results(lines: &Vec<(String, i16)>, search: &String, option: &Options
 }
 
 fn display_word(line: &String, search: &String, option: &Options) {
+    let mut line_temp = line.clone();
     let search_index: Vec<(usize, &str)> = match option {
         Options::Uppercase(_) => line.match_indices(search).collect(),
-        Options::Lowercase(_) => line
-            .to_lowercase()
-            .match_indices(search.to_lowercase().as_str())
-            .collect(),
+        Options::Lowercase(_) => {
+            line_temp = line.to_lowercase();
+            line_temp
+                .match_indices(search.to_lowercase().as_str())
+                .collect()
+        }
     };
     let mut highlight_line = String::new();
 
     for (index, _) in search_index {
-        println!("Index num {}", &index);
         if index == 0 {
             highlight_line.push_str("^".repeat(search.len()).as_str());
         } else {
