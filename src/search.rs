@@ -62,24 +62,27 @@ fn display_results(lines: &Vec<(String, i16)>, search: &String, option: &Options
     println!("\"{}\" was found on lines:", &search);
     for i in 0..lines.len() {
         println!("Line {}:", &lines[i].1);
-        display_word(&lines[i].0, search, option);
+        match option {
+            Options::Uppercase(_) => {
+                display_word(&lines[i].0, search, Options::Uppercase(&lines[i].0))
+            }
+            Options::Lowercase(_) => display_word(
+                &lines[i].0,
+                search,
+                Options::Lowercase(&lines[i].0.to_lowercase()),
+            ),
+        };
     }
 }
 
-fn display_word(line: &String, search: &String, option: &Options) {
-    let mut line_temp;
-	// send options with reference to a string that is upper or lower case
-    let search_index: Vec<(usize, &str)> = match option {
-        Options::Uppercase(_) => line.match_indices(search).collect(),
-        Options::Lowercase(_) => {
-            line_temp = line.to_lowercase();
-            line_temp
-                .match_indices(search.to_lowercase().as_str())
-                .collect()
-        }
-    };
-	
+fn display_word(line: &String, search: &String, option: Options) {
     let mut highlight_line = String::new();
+    let search_index: Vec<(usize, &str)> = match option {
+        Options::Uppercase(line_case) => line_case.match_indices(search).collect(),
+        Options::Lowercase(line_case) => line_case
+            .match_indices(search.to_lowercase().as_str())
+            .collect(),
+    };
 
     for (index, _) in search_index {
         if index == 0 {
