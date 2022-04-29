@@ -1,16 +1,4 @@
-pub enum Options<'a> {
-    Uppercase(&'a String),
-    Lowercase(&'a String),
-}
-
-impl Options<'_> {
-    fn unwrap(&self) -> &String {
-        return match self {
-            Options::Uppercase(search) => &search,
-            Options::Lowercase(search) => &search,
-        };
-    }
-}
+use crate::options::Options;
 
 pub fn find(option: Options, contents: &String) {
     let lines: Vec<(String, i16)> = match option {

@@ -2,9 +2,12 @@ use std::env;
 use std::process;
 
 mod args;
+mod options;
 mod search;
 
 fn main() {
+    use crate::options::{Options, OptionsArg};
+
     let args: Vec<String> = env::args().collect();
 
     let data = args::ArgData::new(&args).unwrap_or_else(|err| {
@@ -17,8 +20,8 @@ fn main() {
         process::exit(1);
     });
     let search_type = match data.search_type {
-        args::Type::Uppercase => search::Options::Uppercase(&data.search),
-        args::Type::Lowercase => search::Options::Lowercase(&data.search),
+        OptionsArg::Uppercase => Options::Uppercase(&data.search),
+        OptionsArg::Lowercase => Options::Lowercase(&data.search),
     };
 
     search::find(search_type, &contents);
