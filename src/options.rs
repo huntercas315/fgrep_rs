@@ -5,7 +5,7 @@ pub enum Options<'a> {
 
 #[derive(Debug)]
 pub enum OptionsArg {
-	Uppercase,
+    Uppercase,
     Lowercase,
 }
 

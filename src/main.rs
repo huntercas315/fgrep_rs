@@ -1,3 +1,4 @@
+use crate::options::{Options, OptionsArg};
 use std::env;
 use std::process;
 
@@ -6,8 +7,6 @@ mod options;
 mod search;
 
 fn main() {
-    use crate::options::{Options, OptionsArg};
-
     let args: Vec<String> = env::args().collect();
 
     let data = args::ArgData::new(&args).unwrap_or_else(|err| {
