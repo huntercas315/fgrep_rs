@@ -1,6 +1,7 @@
 use crate::options::OptionsArg;
 use std::error::Error;
 use std::fs;
+use std::env;
 
 #[derive(Debug)]
 pub struct ArgData {
@@ -35,4 +36,8 @@ impl ArgData {
 pub fn file_string(filename: &String) -> Result<String, Box<dyn Error>> {
     let contents = fs::read_to_string(filename)?;
     Ok(contents)
+}
+
+pub fn get_args() -> Vec<String> {
+	env::args().collect()
 }

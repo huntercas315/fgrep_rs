@@ -3,12 +3,6 @@ pub enum Options<'a> {
     Lowercase(&'a String),
 }
 
-#[derive(Debug)]
-pub enum OptionsArg {
-    Uppercase,
-    Lowercase,
-}
-
 impl Options<'_> {
     pub fn unwrap(&self) -> &String {
         use Options::*;
@@ -17,4 +11,19 @@ impl Options<'_> {
             Lowercase(search) => &search,
         };
     }
+}
+
+#[derive(Debug)]
+pub enum OptionsArg {
+    Uppercase,
+    Lowercase,
+}
+
+impl OptionsArg {
+    pub fn translate<'a>(&self, search: &'a String) -> Options<'a> {
+		return match self {
+	        OptionsArg::Uppercase => Options::Uppercase(search),
+	        OptionsArg::Lowercase => Options::Lowercase(search),
+	    };
+	}
 }

@@ -1,5 +1,3 @@
-use crate::options::{Options, OptionsArg};
-use std::env;
 use std::process;
 
 mod args;
@@ -7,7 +5,7 @@ mod options;
 mod search;
 
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    let args: Vec<String> = args::get_args();
 
     let data = args::ArgData::new(&args).unwrap_or_else(|err| {
         println!("Problem parsing arguments: {}", err);
@@ -18,10 +16,7 @@ fn main() {
         println!("Problem opening file: {}", err);
         process::exit(1);
     });
-    let search_type = match data.search_type {
-        OptionsArg::Uppercase => Options::Uppercase(&data.search),
-        OptionsArg::Lowercase => Options::Lowercase(&data.search),
-    };
+	let search_type = data.search_type.translate(&data.search);
 
     search::find(search_type, &contents);
 }
