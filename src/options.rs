@@ -6,10 +6,9 @@ pub enum Options<'a> {
 impl Options<'_> {
     pub fn unwrap(&self) -> &String {
         use Options::*;
-        return match self {
-            Uppercase(search) => &search,
-            Lowercase(search) => &search,
-        };
+        match self {
+            Uppercase(search) | Lowercase(search) => search,
+        }
     }
 }
 
